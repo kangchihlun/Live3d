@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Real-Time Notifications</title>
+    <script>
+        var socket = undefined;
+        function _uuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8; return v.toString(16); });
+        }
+        var uuid = _uuid()
+        console.log('uuid =>' + uuid)
+        //var name = document.getElementById("name").value;
+        var uri = "ws://" + window.location.host + "/LiveChat?Name=" + uuid;
+        socket = new WebSocket(uri);
+
+
+
+        var list = document.getElementById("messages");
+        socket.onmessage = function (event) {
+            var result = JSON.parse(event.data);
+            var name = result.Sender;
+            var message = result.Message;
+
+            var item = document.createElement("li");
+            item.appendChild(document.createTextNode(name + " said:" + message));
+            list.appendChild(item);
+        };
+    </script>
+</head>
+
+<body>
+    <div id="chat">
+        <h1>Live Actress Action <span id="displayName"></span></h1>
+
+        <p>To:<input type="text" id="to" /></p>
+        <p><button id="Dance">Dance</button></p>
+        <p><button id="Wave">Wave</button></p>
+        <p><button id="Sing">Sing</button></p>
+        <script>
+            document.getElementById("Dance").onclick = function () {
+                socket.send(JSON.stringify({
+                    Receiver: document.getElementById("to").value,
+                    Message: "Dance"
+                }));
+
+            };
+
+            document.getElementById("Wave").onclick = function () {
+                socket.send(JSON.stringify({
+                    Receiver: document.getElementById("to").value,
+                    Message: "Wave"
+                }));
+                document.getElementById("content").value = "";
+            };
+
+            document.getElementById("Sing").onclick = function () {
+                socket.send(JSON.stringify({
+                    Receiver: document.getElementById("to").value,
+                    Message: "Sing"
+                }));
+                document.getElementById("content").value = "";
+            };
+        </script>
+
+        <ul id="messages"></ul>
+    </div>
+
+    @*<script language="javascript" type="text/javascript">
+            var uri = "ws://" + window.location.host + "/LiveChat?Name=Aslan";
+            socket = new WebSocket(uri);
+            socket.onmessage = function (event) {
+                appendItem(list, event.data);
+                console.log(event.data);
+            };
+
+            var list = document.getElementById("messages");
+            var button = document.getElementById("sendButton");
+            button.addEventListener("click", function() {
+
+                var input = document.getElementById("textInput");
+                sendMessage(input.value);
+
+                input.value = "";
+            });
+            function sendMessage(message) {
+                console.log("Sending: " + message);
+                socket.send(message);
+            }
+            function appendItem(list, message) {
+                var item = document.createElement("li");
+                item.appendChild(document.createTextNode(message));
+                list.appendChild(item);
+            }
+        </script>*@
+</body>
+</html>
