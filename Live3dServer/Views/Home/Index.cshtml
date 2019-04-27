@@ -7,17 +7,20 @@
 <head>
     <meta charset="utf-8" />
     <title>Real-Time Notifications</title>
+    <script type="text/javascript" src="~/js/shake.js"></script>
     <script>
+
+         /* WebSocket Region*/
         var socket = undefined;
         function _uuid() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8; return v.toString(16); });
         }
+
         var uuid = _uuid()
         console.log('uuid =>' + uuid)
         //var name = document.getElementById("name").value;
         var uri = "ws://" + window.location.host + "/LiveChat?Name=" + uuid;
         socket = new WebSocket(uri);
-
 
 
         var list = document.getElementById("messages");
@@ -30,6 +33,33 @@
             item.appendChild(document.createTextNode(name + " said:" + message));
             list.appendChild(item);
         };
+
+
+        /* Shaker Sensor */
+        window.onload = function() {
+            //create a new instance of shake.js.
+            var myShakeEvent = new Shake({
+                threshold: 15
+            });
+
+            // start listening to device motion
+            myShakeEvent.start();
+
+            // register a shake event
+            window.addEventListener('shake', shakeEventDidOccur, false);
+
+            //shake event callback
+            function shakeEventDidOccur () {
+                 socket.send(JSON.stringify({
+                    Receiver: 'unity',
+                    Message: "Shake"
+                }));
+                //put your own code here etc.
+                alert('Shake!');
+            }
+        };
+
+       
     </script>
 </head>
 
@@ -38,30 +68,47 @@
         <h1>Live Actress Action <span id="displayName"></span></h1>
 
         <p>To:<input type="text" id="to" /></p>
-        <p><button id="Dance">Dance</button></p>
-        <p><button id="Wave">Wave</button></p>
-        <p><button id="Sing">Sing</button></p>
+        <p><button class="btn-info" id="Blue">Blue</button></p>
+        <p><button class="btn-outline-info badge-light" id="Yellow">Yellow</button></p>
+        <p><button class="btn-info" id="Red">Red</button></p>
         <script>
-            document.getElementById("Dance").onclick = function () {
+            function animateCSS(element, animationName, callback) {
+                const node = document.getElementById(element)
+                node.classList.add('animated', animationName)
+
+                function handleAnimationEnd() {
+                    node.classList.remove('animated', animationName)
+                    node.removeEventListener('animationend', handleAnimationEnd)
+
+                    if (typeof callback === 'function') callback()
+                }
+
+                node.addEventListener('animationend', handleAnimationEnd)
+            }
+
+            document.getElementById("Blue").onclick = function () {
+                animateCSS('Blue', 'jello')
                 socket.send(JSON.stringify({
-                    Receiver: document.getElementById("to").value,
-                    Message: "Dance"
+                    Receiver: 'unity',
+                    Message: "Blue"
                 }));
 
             };
 
-            document.getElementById("Wave").onclick = function () {
+            document.getElementById("Yellow").onclick = function () {
+                animateCSS('Yellow', 'jello')
                 socket.send(JSON.stringify({
-                    Receiver: document.getElementById("to").value,
-                    Message: "Wave"
+                    Receiver: 'unity',
+                    Message: "Yellow"
                 }));
                 document.getElementById("content").value = "";
             };
 
-            document.getElementById("Sing").onclick = function () {
+            document.getElementById("Red").onclick = function () {
+                animateCSS('Red', 'jello')
                 socket.send(JSON.stringify({
-                    Receiver: document.getElementById("to").value,
-                    Message: "Sing"
+                    Receiver: 'unity',
+                    Message: "Red"
                 }));
                 document.getElementById("content").value = "";
             };
