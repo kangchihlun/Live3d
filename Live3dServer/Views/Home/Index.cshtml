@@ -10,7 +10,7 @@
     <script type="text/javascript" src="~/js/shake.js"></script>
     <script>
 
-         /* WebSocket Region*/
+        /* WebSocket Region*/
         var socket = undefined;
         function _uuid() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : r & 0x3 | 0x8; return v.toString(16); });
@@ -21,7 +21,9 @@
         //var name = document.getElementById("name").value;
         var uri = "ws://" + window.location.host + "/LiveChat?Name=" + uuid;
         socket = new WebSocket(uri);
-
+        socket.onopen = function () {
+            console.log(uuid + '  connected ')
+        };
 
         var list = document.getElementById("messages");
         socket.onmessage = function (event) {
@@ -29,14 +31,15 @@
             var name = result.Sender;
             var message = result.Message;
 
-            var item = document.createElement("li");
-            item.appendChild(document.createTextNode(name + " said:" + message));
-            list.appendChild(item);
+            //var item = document.createElement("li");
+            //item.appendChild(document.createTextNode(name + " said:" + message));
+            //list.appendChild(item);
+            console.log(' got message :' + message)
         };
 
 
         /* Shaker Sensor */
-        window.onload = function() {
+        window.onload = function () {
             //create a new instance of shake.js.
             var myShakeEvent = new Shake({
                 threshold: 15
@@ -49,8 +52,8 @@
             window.addEventListener('shake', shakeEventDidOccur, false);
 
             //shake event callback
-            function shakeEventDidOccur () {
-                 socket.send(JSON.stringify({
+            function shakeEventDidOccur() {
+                socket.send(JSON.stringify({
                     Receiver: 'unity',
                     Message: "Shake"
                 }));
@@ -59,7 +62,7 @@
             }
         };
 
-       
+
     </script>
 </head>
 

@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8" />
-    <title>Real-Time Notifications</title>
+    <title>Admin</title>
     <script>
         var socket = undefined;
     </script>
@@ -20,7 +26,7 @@
                 var uri = "ws://" + window.location.host + "/LiveChat?Name=" + name;
                 console.log(uri)
                 socket = new WebSocket(uri);
-
+                console.log(socket)
                 socket.onopen = function () {
                     document.getElementById("login").style.display = "none";
                     document.getElementById("chat").style.display = "block";
