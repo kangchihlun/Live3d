@@ -1,0 +1,2 @@
+E:\web\Live3d\Live3dCientUnity\Live3dCientUnity\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+E:\web\Live3d\Live3dCientUnity\Live3dCientUnity\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
