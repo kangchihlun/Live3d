@@ -275,9 +275,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 486976330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c74fe5a02f5c7b49aaca6c342d489da, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b52f8d700aaf984aa1a852cd72e6afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  webSocketUri: ws://61.216.153.14/LiveChat?Name=unity
+  AutoConnect: 1
+  headers: []
 --- !u!4 &486976332
 Transform:
   m_ObjectHideFlags: 0
