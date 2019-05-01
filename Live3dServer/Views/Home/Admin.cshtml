@@ -23,7 +23,7 @@
         <script>
             document.getElementById("loginBtn").onclick = function () {
                 var name = document.getElementById("name").value;
-                var uri = "ws://" + window.location.host + "/LiveChat?Name=" + name;
+                var uri = "ws://" + window.location.host + "/Live3d/LiveChat?Name=" + name;
                 console.log(uri)
                 socket = new WebSocket(uri);
                 console.log(socket)

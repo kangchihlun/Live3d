@@ -19,7 +19,7 @@
         var uuid = _uuid()
         console.log('uuid =>' + uuid)
         //var name = document.getElementById("name").value;
-        var uri = "ws://" + window.location.host + "/LiveChat?Name=" + uuid;
+        var uri = "ws://" + window.location.host + "/Live3d/LiveChat?Name=" + uuid;
         socket = new WebSocket(uri);
         socket.onopen = function () {
             console.log(uuid + '  connected ')
@@ -53,12 +53,14 @@
 
             //shake event callback
             function shakeEventDidOccur() {
-                socket.send(JSON.stringify({
-                    Receiver: 'unity',
-                    Message: "Shake"
-                }));
-                //put your own code here etc.
-                alert('Shake!');
+                //socket.send(JSON.stringify({
+                //    Receiver: 'unity',
+                //    Message: "Shake"
+                //}))
+                //    .then(() => {
+                        //put your own code here etc.
+                        alert('Shake!');
+                    //});
             }
         };
 
